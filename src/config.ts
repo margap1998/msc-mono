@@ -1,0 +1,22 @@
+import { config } from 'dotenv'; 
+import { PostgresConnectionOptions } from
+  'typeorm/driver/postgres/PostgresConnectionOptions';
+
+config();
+
+export const appConfig = { port: process.env.MSC_PUT_APP_PORT || 3000 };
+
+export const dbConfig: PostgresConnectionOptions = {
+  type: 'postgres',
+  host: process.env.DB_HOST || 'localhost',
+  port: parseInt(process.env.DB_PORT) || 3306,
+  username: process.env.DB_USERNAME || 'test',
+  password: process.env.DB_PASSWORD || 'test',
+  database: process.env.DB_NAME || 'test',
+  entities: ['dist/db/model/*.js'],
+  logging: !!process.env.DB_LOGGING,
+  synchronize: !!process.env.DB_HOST_SYNCHRONIZE,
+  applicationName: 'test-app-monolith',
+  dropSchema: !!process.env.DB_DROP_SCHEMA,
+  schema: process.env.DB_SCHEMA
+};

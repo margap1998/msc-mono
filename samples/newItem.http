@@ -1,0 +1,12 @@
+POST http://localhost:3002/api/items
+Content-Type: application/json
+
+{
+  "name": "Item1",
+  "category": {"name": "Main"},
+  "priceNetto": 100,
+  "VAT": 23,
+  "excise": null,
+  "overhead": 13,
+  "available": true
+}
