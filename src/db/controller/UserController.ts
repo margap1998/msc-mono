@@ -5,12 +5,14 @@ import { GetUserRequest } from '../../types/get-requests/GetUserRequest';
 
 export function getUserBy(
   user: GetUserRequest = {},
-  skip?: number,
-  take?: number
+  select: Array<keyof User>
+  = ['id', 'firstName', 'lastName', 'email', 'orders'],
+  skip: number = undefined,
+  take: number = undefined
 ) {
   const userRepository = AppDataSource.getRepository(User);
   return userRepository.find({
-    select:['id', 'firstName', 'lastName', 'email', 'orders'],
+    select,
     where: user,
     skip,
     take

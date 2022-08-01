@@ -4,7 +4,7 @@ Content-Type: application/json
 {
   "firstName": "Jan",
   "lastName": "Kowalski",
-  "email": "j.kowalski3@example.com",
-  "phoneNumber": "048 111111113",
+  "email": "j.kowalski5@example.com",
+  "phoneNumber": "048 111111115",
   "password": "1234567890"
 }

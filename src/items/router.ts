@@ -75,7 +75,7 @@ async function deleteItemHandler(req: Request, res: Response) {
 }
 export default function getItemRouter(
   prefix: string,
-  routerPrefix = '/itemCategories'
+  routerPrefix = '/items'
 ) {
   const router = Router();
   router.get(`${prefix}${routerPrefix}`, getItems);

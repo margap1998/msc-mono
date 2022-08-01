@@ -4,7 +4,11 @@ import { PostgresConnectionOptions } from
 
 config();
 
-export const appConfig = { port: process.env.MSC_PUT_APP_PORT || 3000 };
+export const appConfig = {
+  port: process.env.MSC_PUT_APP_PORT || 3000,
+  secret: process.env.MSC_PUT_APP_SECRET || 'secret',
+  apiPrefix: process.env.MSC_PUT_APP_API_PREFIX || '/api'
+};
 
 export const dbConfig: PostgresConnectionOptions = {
   type: 'postgres',

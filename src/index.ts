@@ -9,7 +9,7 @@ function main() {
   mainApp.use(express.json());
   mainApp.use('/static', express.static('dist/static'));
   mainApp.use('/', express.static('dist/client'));
-  mainApp.use(app());
+  mainApp.use(app(appConfig.apiPrefix));
   AppDataSource.initialize().then(() => {
     console.log(`Running on ${appConfig.port}`);
     mainApp.listen(appConfig.port);

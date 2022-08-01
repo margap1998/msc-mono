@@ -33,6 +33,7 @@ async function postUsers(req: Request, res: Response) {
   const newUser: UserRequest = req.body;
   try {
     const user = await addUser(newUser);
+    user.password = '';
     res.status(201);
     res.send(user);
   } catch(e) {
