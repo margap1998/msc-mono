@@ -3,6 +3,7 @@ import {
   Response,
   Router 
 } from 'express';
+import verifyToken from '../auth/verify';
 import {
   addOrder, deleteOrder, getOrderBy, updateOrder 
 } from '../db/controller';
@@ -75,6 +76,7 @@ export default function getOrderRouter(
   routerPrefix = '/orders'
 ) {
   const router = Router();
+  router.use(verifyToken);
   router.get(`${prefix}${routerPrefix}`, getOrders);
   router.post(`${prefix}${routerPrefix}`, postOrders);
   router.get(`${prefix}${routerPrefix}/:orderID`, getOrders);

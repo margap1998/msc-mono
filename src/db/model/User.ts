@@ -17,6 +17,9 @@ export class User extends BaseEntity {
     @Column()
       lastName: string;
     
+    @Column({ default: 'all', nullable: true })
+      role: string;
+
     @Column({ unique: true })
       email: string;
 

@@ -3,6 +3,7 @@ import {
   Response,
   Router 
 } from 'express';
+import verifyToken from '../auth/verify';
 import {
   getUserBy,
   addUser,
@@ -79,14 +80,19 @@ async function deleteUserHandler(req: Request, res: Response) {
 }
 export default function getUserRouter(prefix: string, routerPrefix = '/users') {
   const router = Router();
-  router.get(`${prefix}${routerPrefix}`, getUsers);
+  router.get(`${prefix}${routerPrefix}`, verifyToken, getUsers);
   router.post(`${prefix}${routerPrefix}`, validateUserPost, postUsers);
-  router.get(`${prefix}${routerPrefix}/:userID`, getUsers);
+  router.get(`${prefix}${routerPrefix}/:userID`, verifyToken, getUsers);
   router.patch(
     `${prefix}${routerPrefix}/:userID`,
+    verifyToken,
     validateUserPatch,
     patchUser
   );
-  router.delete(`${prefix}${routerPrefix}/:userID`, deleteUserHandler);
+  router.delete(
+    `${prefix}${routerPrefix}/:userID`,
+    verifyToken,
+    deleteUserHandler
+  );
   return router;
 }
