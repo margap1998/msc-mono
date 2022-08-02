@@ -5,7 +5,10 @@ import {
   Item, Order, User 
 } from '../../src/db/model';
 
-const AppDataSource = new DataSource(dbConfig);
+const AppDataSource = new DataSource({
+  ...dbConfig,
+  entities: ['../../src/db/model']
+});
 
 AppDataSource.initialize().then(async dataSource => {
   const userRepository = dataSource.getRepository(User);
