@@ -1,7 +1,7 @@
 import { DataSource } from 'typeorm';
 import { dbConfig } from '../config';
 import {
-  Item, Order, User 
+  Item, ItemCategory, Order, User 
 } from './model';
 export default async function populate(req, res){
   const AppDataSource = new DataSource(dbConfig);
@@ -19,6 +19,17 @@ export default async function populate(req, res){
       }));
     }
     await userRepository.save(userTable);
+    return dataSource;
+  }).then(async dataSource => {
+    const userRepository = dataSource.getRepository(ItemCategory);
+    const items: Array<ItemCategory> = [];
+    for (let index = 0; index < 10000; index++) {
+      items.push(userRepository.create({
+        'name': `Main${index}`,
+        parentCategory: null
+      }));
+    }
+    await userRepository.save(items);
     return dataSource;
   }).then(async dataSource => {
     const userRepository = dataSource.getRepository(Item);
