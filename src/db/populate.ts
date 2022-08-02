@@ -4,13 +4,10 @@ import { dbConfig } from '../config';
 import {
   Item, Order, User 
 } from './model';
-export default function populate(req, res){
-  const AppDataSource = new DataSource({
-    ...dbConfig,
-    entities: ['../../src/db/model']
-  });
+export default async function populate(req, res){
+  const AppDataSource = new DataSource(dbConfig);
 
-  AppDataSource.initialize().then(async dataSource => {
+  await (AppDataSource.initialize().then(async dataSource => {
     const userRepository = dataSource.getRepository(User);
     for (let index = 0; index < 2000; index++) {
       await userRepository.create({
@@ -52,6 +49,6 @@ export default function populate(req, res){
       }).save();
     }
     return dataSource;
-  }).then((ds) => ds.destroy());
+  }).then((ds) => ds.destroy()));
   res.send(200);
 }
