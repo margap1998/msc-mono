@@ -6,6 +6,7 @@
   "scripts": {
     "copy-assets": "ts-node tools/copyAssets",
     "tsc": "tsc",
+    "populate": "ts-node tools/populateDB/populate",
     "build": "npm-run-all tsc copy-assets",
     "dev:start": "npm-run-all build start",
     "dev": "nodemon --watch src -e ts,ejs --exec npm run dev:start",
