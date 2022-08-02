@@ -23,7 +23,7 @@ export default async function populate(req, res){
   }).then(async dataSource => {
     const userRepository = dataSource.getRepository(ItemCategory);
     const items: Array<ItemCategory> = [];
-    for (let index = 0; index < 10000; index++) {
+    for (let index = 0; index < 10; index++) {
       items.push(userRepository.create({
         'name': `Main${index}`,
         parentCategory: null
