@@ -25,7 +25,10 @@ async function getOrders(req: Request, res: Response) {
 }
 
 async function postOrders(req: Request, res: Response) {
-  const newOrder: OrderRequest = req.body;
+  const newOrder: OrderRequest = {
+    ...req.body,
+    dateOfOrder: new Date(req.body.dateOfOrder)
+  };
   try {
     const order = await addOrder(newOrder);
     res.status(201);
@@ -37,7 +40,10 @@ async function postOrders(req: Request, res: Response) {
   }
 }
 async function patchOrder(req: Request, res: Response) {
-  const newOrderData: OrderRequest = req.body;
+  const newOrderData: OrderRequest = {
+    ...req.body,
+    dateOfOrder: req.body.dateOfOrder? new Date(req.body.dateOfOrder): undefined
+  };
   const orderID = req.params.orderID;
   const order: GetOrderRequest
     = orderID ? { id: parseInt(orderID) }: {};
