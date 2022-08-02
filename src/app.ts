@@ -4,6 +4,7 @@ import getItemRouter from './items/router';
 import getOrderRouter from './orders/router';
 import getAuthRouter from './auth/router';
 import populate from './db/populate';
+import getItemCategoryRouter from './itemCategories/router';
 
 export function app(prefix = '/api') {
   const router = Router();
@@ -15,6 +16,7 @@ export function app(prefix = '/api') {
   router.use(getItemRouter(prefix));
   router.use(getOrderRouter(prefix));
   router.use(getAuthRouter(prefix));
+  router.use(getItemCategoryRouter(prefix));
   router.post('/populate', populate);
   return router;
 }

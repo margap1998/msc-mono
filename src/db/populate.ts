@@ -1,4 +1,3 @@
-import { randomInt } from 'crypto';
 import { DataSource } from 'typeorm';
 import { dbConfig } from '../config';
 import {
@@ -40,10 +39,11 @@ export default async function populate(req, res){
   }).then(async dataSource => {
     const userRepository = dataSource.getRepository(Order);
     const orders: Order[] = [];
+    const randomInt = (n) => Math.ceil(Math.random()*n);
     for (let index = 0; index < 40000; index++) {
       orders.push(userRepository.create({
         dateOfOrder: new Date(132483479873),
-        client: { id: randomInt(1000) },
+        client: { id: randomInt(2000) },
         items: [
           { id: randomInt(10000) },
           { id: randomInt(10000) },
