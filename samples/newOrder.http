@@ -1,0 +1,15 @@
+POST http://localhost:3002/api/orders
+Content-Type: application/json
+
+{
+        "dateOfOrder": 1324834798,
+        "dateOfRealization": null,
+        "client": { "id": 1 },
+        "items": [
+          { "id": 1 },
+          { "id": 2 },
+          { "id": 3 },
+          { "id": 4 }
+        ],
+        "orderInvoiceFileURI": "<location>/${index}" 
+      }

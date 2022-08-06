@@ -3,13 +3,15 @@ import { dbConfig } from '../config';
 import {
   Item, ItemCategory, Order, User 
 } from './model';
-export default async function populate(req, res){
-  const AppDataSource = new DataSource(dbConfig);
 
-  await (AppDataSource.initialize().then(async dataSource => {
-    const userRepository = dataSource.getRepository(User);
+export default async function populate(req,res){ try {
+  const AppDataSource = new DataSource(dbConfig);
+  await AppDataSource.initialize();
+  switch (req.query.table){
+  case 'users':
+    const userRepository = AppDataSource.getRepository(User);
     const userTable: Array<User> = [];
-    for (let index = 0; index < 2000; index++) {
+    for (let index = 0; index < 100; index++) {
       userTable.push(userRepository.create({
         'firstName': `${index}User`,
         'lastName': `${index}U`,
@@ -19,25 +21,25 @@ export default async function populate(req, res){
       }));
     }
     await userRepository.save(userTable);
-    return dataSource;
-  }).then(async dataSource => {
-    const userRepository = dataSource.getRepository(ItemCategory);
-    const items: Array<ItemCategory> = [];
-    for (let index = 0; index < 10; index++) {
-      items.push(userRepository.create({
+    break;
+  case 'itemCategories':
+    const itemCategoryRepository = AppDataSource.getRepository(ItemCategory);
+    const itemCat: Array<ItemCategory> = [];
+    for (let index = 0; index < 5; index++) {
+      itemCat.push(itemCategoryRepository.create({
         'name': `Main${index}`,
         parentCategory: null
       }));
     }
-    await userRepository.save(items);
-    return dataSource;
-  }).then(async dataSource => {
-    const userRepository = dataSource.getRepository(Item);
+    await itemCategoryRepository.save(itemCat);
+    break;
+  case 'items':
+    const itemRepository = AppDataSource.getRepository(Item);
     const items: Array<Item> = [];
-    for (let index = 0; index < 10000; index++) {
-      items.push(userRepository.create({
+    for (let index = 0; index < 1000; index++) {
+      items.push(itemRepository.create({
         'name': `Item${index}`,
-        'category': { 'name': `Main${index%10}` },
+        'category': { 'name': `Main${index%5}` },
         'priceNetto': 100 + index,
         'VAT': 23,
         'excise': null,
@@ -45,27 +47,31 @@ export default async function populate(req, res){
         'available': index % 3 != 1
       }));
     }
-    await userRepository.save(items);
-    return dataSource;
-  }).then(async dataSource => {
-    const userRepository = dataSource.getRepository(Order);
+    await itemRepository.save(items);
+    break;
+  case 'orders':
+    const orderRepository = AppDataSource.getRepository(Order);
     const orders: Order[] = [];
-    const randomInt = (n) => Math.ceil(Math.random()*n);
-    for (let index = 0; index < 40000; index++) {
-      orders.push(userRepository.create({
-        dateOfOrder: new Date(132483479873),
-        client: { id: randomInt(2000) },
+    const randomInt = (n) => Math.floor(Math.random()*n) + 1;
+    for (let index = 0; index < 1000; index++) {
+      orders.push(orderRepository.create({
+        dateOfOrder: new Date(1324834798),
+        dateOfRealization: null,
+        client: { id: randomInt(100) },
         items: [
-          { id: randomInt(10000) },
-          { id: randomInt(10000) },
-          { id: randomInt(10000) },
-          { id: randomInt(10000) }
+          { id: randomInt(999) },
+          { id: randomInt(999) },
+          { id: randomInt(999) },
+          { id: randomInt(999) }
         ],
         orderInvoiceFileURI: `<location>/${index}`, 
       }));
     }
-    userRepository.save(orders);
-    return dataSource;
-  }).then((ds) => ds.destroy()));
-  res.send(200);
-}
+    await orderRepository.save(orders);
+  }
+  await AppDataSource.destroy();
+  res.status(200);
+  res.send('OK');
+} catch(e) {
+  res.status(500);
+}}

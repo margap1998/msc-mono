@@ -1,0 +1,2 @@
+POST http://vmtest.westeurope.cloudapp.azure.com:3000/populate
+Authorization: Bearer <token>

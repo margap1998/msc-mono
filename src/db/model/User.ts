@@ -29,7 +29,7 @@ export class User extends BaseEntity {
     @Column({ default: true, nullable: true })
       isActive: boolean;
 
-    @OneToMany(() => Order, (order: Order) => order.client)
+    @OneToMany(() => Order, (order: Order) => order.client.id)
       orders: Order[];
 }
 

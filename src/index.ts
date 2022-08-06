@@ -7,8 +7,8 @@ import { AppDataSource } from './db/dataSource';
 function main() {
   const mainApp = express();
   mainApp.use(express.json());
-  mainApp.use('/static', express.static('dist/static'));
-  mainApp.use('/', express.static('dist/client'));
+  mainApp.use('/static', express.static(appConfig.staticContent));
+  mainApp.use('/', express.static(appConfig.client));
   mainApp.use(app(appConfig.apiPrefix));
   AppDataSource.initialize().then(() => {
     console.log(`Running on ${appConfig.port}`);

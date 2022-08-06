@@ -8,17 +8,22 @@ export function getOrderBy(
   skip?: number,
   take?: number
 ) {
-  const orderRepository = AppDataSource.getRepository(Order);
-  return orderRepository.find({
-    where: order,
-    skip,
-    take
-  });
+  let orderQuery = AppDataSource.createQueryBuilder(Order, 'order');
+  orderQuery = orderQuery
+    .leftJoinAndSelect('order.items', 'item')
+    .leftJoinAndSelect('order.client', 'user');
+  order.id && (orderQuery = orderQuery.where('order.id = :id', order));
+  return orderQuery.skip(skip).take(take).getMany();
 }
 
-export function addOrder(order: OrderRequest){
+export function addOrder(order: OrderRequest | OrderRequest[]){
   const orderRepository = AppDataSource.getRepository(Order);
-  return orderRepository.create(order).save();
+  if (Array.isArray(order)) {
+    const orders = orderRepository.create(order);
+    orderRepository.save(orders);
+  } else {
+    return orderRepository.create(order).save();
+  }
 }
 export function deleteOrder(order: GetOrderRequest){
   const orderRepository = AppDataSource.getRepository(Order);
