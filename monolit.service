@@ -2,7 +2,7 @@
 Description=Monolit CRUD app
 
 [Service]
-ExecStart=/monolit/start.sh
+ExecStart=node /monolit/dist
 Restart=always
 User=nobody
 Group=nogroup

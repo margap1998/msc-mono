@@ -1,2 +1,2 @@
-POST http://msc-margap.westus3.cloudapp.azure.com:3000/populate?table=orders
+POST http://20.111.56.29:3002/populate?table=orders
 Authorization: Bearer <token>
