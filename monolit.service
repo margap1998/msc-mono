@@ -1,0 +1,14 @@
+[Unit]
+Description=Monolit CRUD app
+
+[Service]
+ExecStart=/monolit/start.sh
+Restart=always
+User=nobody
+Group=nogroup
+Environment=PATH=/usr/bin:/usr/local/bin
+Environment=NODE_ENV=production
+WorkingDirectory=/monolit
+
+[Install]
+WantedBy=multi-user.target
