@@ -15,7 +15,7 @@ RUN npm install
 # Bundle app source
 COPY . .
 
-EXPOSE 3002
+EXPOSE 3002 3000
 
 RUN npm run build
 
