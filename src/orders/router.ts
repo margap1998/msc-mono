@@ -11,10 +11,15 @@ import { GetOrderRequest, OrderRequest } from '../types';
 
 async function getOrders(req: Request, res: Response) {
   const orderID = req.params.orderID;
+
   const order: GetOrderRequest
     = orderID ? { id: parseInt(orderID) }: {};
+  
+  const skip = parseInt(req.query.skip.toString() || '0');
+  const take = parseInt(req.query.take.toString() || '20');
+
   try {
-    const orders = await getOrderBy(order);
+    const orders = await getOrderBy(order, skip, take);
     res.status(200);
     res.send(orders);
   } catch(e) {

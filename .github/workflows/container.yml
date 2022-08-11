@@ -70,9 +70,7 @@ jobs:
             echo DB_PORT=${{ secrets.DB_PORT }} >> .env
             echo DB_USERNAME=${{ secrets.DB_USERNAME }} >> .env
             echo DB_PASSWORD=${{ secrets.DB_PASSWORD }} >> .env
-            echo DB_CACHE_REDIS=${{ secrets.DB_CACHE_REDIS }} >> .env
-            echo DB_REDIS_HOST=${{ secrets.DB_REDIS_HOST }} >> .env
-            echo DB_REDIS_PORT=${{ secrets.DB_REDIS_PORT }} >> .env
+            echo DB_CACHE_TABLE=${{ secrets.DB_CACHE_TABLE }} >> .env
             echo MSC_PUT_APP_PORT=3000 >> .env
 
         - name: 'Build and push image'
@@ -82,15 +80,15 @@ jobs:
             username: ${{ secrets.REGISTRY_USERNAME }}
             password: ${{ secrets.REGISTRY_PASSWORD }}
         - run: |
-            docker build . -t ${{ secrets.REGISTRY_LOGIN_SERVER }}/mscmonolit:${{ github.sha }}-redis
-            docker push ${{ secrets.REGISTRY_LOGIN_SERVER }}/mscmonolit:${{ github.sha }}-redis
+            docker build . -t ${{ secrets.REGISTRY_LOGIN_SERVER }}/mscmonolit:${{ github.sha }}-cache
+            docker push ${{ secrets.REGISTRY_LOGIN_SERVER }}/mscmonolit:${{ github.sha }}-cache
 
         - name: 'Deploy to Azure Container Instances'
           uses: 'azure/aci-deploy@v1'
           with:
             resource-group: ${{ secrets.RESOURCE_GROUP }}
             dns-name-label: ${{ secrets.RESOURCE_GROUP }}${{ github.run_number }}
-            image: ${{ secrets.REGISTRY_LOGIN_SERVER }}/mscmonolit:${{ github.sha }}-redis
+            image: ${{ secrets.REGISTRY_LOGIN_SERVER }}/mscmonolit:${{ github.sha }}-cache
             registry-login-server: ${{ secrets.REGISTRY_LOGIN_SERVER }}
             registry-username: ${{ secrets.REGISTRY_USERNAME }}
             registry-password: ${{ secrets.REGISTRY_PASSWORD }}
