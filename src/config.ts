@@ -23,9 +23,10 @@ export const dbConfig: PostgresConnectionOptions = {
   cache: (process.env.DB_CACHE_REDIS && {
     type: 'redis',
     options: {
-      host: process.env.DB_REDIS_HOST,
-      port: process.env.DB_REDIS_PORT,
-      password: process.env.DB_REDIS_PASSWORD 
+      socket: { 
+        host: process.env.DB_REDIS_HOST,
+        port: process.env.DB_REDIS_PORT
+      },
     }
   }) || !!process.env.DB_CACHE_TABLE,
   logging: !!process.env.DB_LOGGING,
