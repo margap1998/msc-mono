@@ -27,7 +27,8 @@ export const dbConfig: PostgresConnectionOptions = {
         host: process.env.DB_REDIS_HOST,
         port: process.env.DB_REDIS_PORT
       },
-    }
+    },
+    duration: 10000
   }) || !!process.env.DB_CACHE_TABLE,
   logging: !!process.env.DB_LOGGING,
   synchronize: !!process.env.DB_HOST_SYNCHRONIZE,
