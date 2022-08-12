@@ -15,8 +15,8 @@ async function getOrders(req: Request, res: Response) {
   const order: GetOrderRequest
     = orderID ? { id: parseInt(orderID) }: {};
   
-  const skip = parseInt(req.query.skip.toString() || '0');
-  const take = parseInt(req.query.take.toString() || '20');
+  const skip = parseInt((req.query.skip || '0').toString());
+  const take = parseInt((req.query.take || '20').toString());
 
   try {
     const orders = await getOrderBy(order, skip, take);
